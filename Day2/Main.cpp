@@ -4,6 +4,74 @@
 #include <string>
 #include <vector>
 
+static bool verifyRow(std::vector<int> data)
+{
+	// The levels are either all increasing or all decreasing.
+
+	bool increasing = true;
+	bool firstLoop = true;
+	bool valid = true;
+
+	for (int i = 1; i < data.size(); i++)
+	{
+		if (data[i] - data[i - 1] > 0)
+		{
+			if (firstLoop == false && increasing == false)
+			{
+				valid = false;
+			}
+
+			if (firstLoop)
+			{
+				increasing = true;
+			}
+		}
+
+		else if (data[i] - data[i - 1] < 0)
+		{
+			if (firstLoop == false && increasing == true)
+			{
+				valid = false;
+			}
+
+			if (firstLoop)
+			{
+				increasing = false;
+			}
+		}
+
+		firstLoop = false;
+	}
+
+	// Any two adjacent levels differ by at least one and at most three.
+
+	int diffA = (increasing ? 1 : -3);
+	int diffB = (increasing ? 3 : -1);
+
+	for (int i = 1; i < data.size(); i++)
+	{
+		if (data[i] - data[i - 1] < diffA || data[i] - data[i - 1] > diffB)
+		{
+			valid = false;
+		}
+	}
+
+	// Print the result
+
+	std::cout << "Data: " << data.size() << " " << (increasing ? " Increasing" : " Decreasing") << std::endl;
+	std::cout << "Valid: " << (valid ? "True" : "False") << std::endl;
+
+	for (int i = 0; i < data.size(); i++)
+	{
+		std::cout << data[i] << " ";
+	}
+
+	std::cout << "\n\n";
+
+	// If the row is valid, return true.
+	return valid;
+}
+
 int main()
 {
 	std::ifstream file("Data.txt");
@@ -31,69 +99,26 @@ int main()
 
 		row.push_back(std::stoi(value));
 
-		// The levels are either all increasing or all decreasing.
+		bool result = verifyRow(row);
 
-		bool increasing = true;
-		bool firstLoop = true;
-		bool valid = true;
-		
-		for (int i = 1; i < row.size(); i++)
-		{
-			if (row[i] - row[i - 1] > 0)
-			{
-				if (firstLoop == false && increasing == false)
-				{
-					valid = false;
-				}
-
-				increasing = true;
-			}
-
-			else if (row[i] - row[i - 1] < 0)
-			{
-				if (firstLoop == false && increasing == true)
-				{
-					valid = false;
-				}
-
-				increasing = false;
-			}
-
-			firstLoop = false;
-		}
-
-		// Any two adjacent levels differ by at least one and at most three.
-
-		int diffA = (increasing ? 1 : -3);
-		int diffB = (increasing ? 3 : -1);
-
-		for (int i = 1; i < row.size(); i++)
-		{
-			if (row[i] - row[i - 1] < diffA || row[i] - row[i - 1] > diffB)
-			{
-				valid = false;
-			}
-		}
-
-		// If the row is valid, increment the validRows counter.
-
-		if (valid)
+		if (result)
 		{
 			validRows++;
 		}
 
-		// Print the result
-
-		if (true)
+		else
 		{
-			std::cout << "Row: " << row.size() << " " << (valid ? "Valid" : "Invalid") << " " << (increasing ? " Increasing" : " Decreasing") << std::endl;
-
 			for (int i = 0; i < row.size(); i++)
 			{
-				std::cout << row[i] << " ";
-			}
+				std::vector<int> newRow = row;
+				newRow.erase(newRow.begin() + i);
 
-			std::cout << "\n\n";
+				if (verifyRow(newRow))
+				{
+					validRows++;
+					break;
+				}
+			}
 		}
 	}
 
