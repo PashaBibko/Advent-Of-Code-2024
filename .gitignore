@@ -14,3 +14,8 @@
 # Ignore build output
 
 x64/
+
+# Ignore data files
+
+*.txt
+*.csv

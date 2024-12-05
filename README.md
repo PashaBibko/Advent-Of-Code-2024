@@ -11,7 +11,7 @@ Advent of code can be found [here](https://adventofcode.com/2024/about)
 | Day 1 | 2/2 | 15 mins (Thank you std::sort) |
 | Day 2 | 2/2 | Bit less than 2 Hours |
 | Day 3 | 2/2 | 20 mins (Who needs regex) |
-| Day 4 | x/2 | N/A |
+| Day 4 | 2/2 | 30 mins |
 | Day 5 | x/2 | N/A |
 | Day 6 | x/2 | N/A |
 | Day 7 | x/2 | N/A |
